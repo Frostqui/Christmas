@@ -9,6 +9,7 @@ part 'santa.dart';
 part 'snow.dart';
 part 'tile.dart';
 part 'camera.dart';
+part 'tree.dart';
 
 Santa santa;
 Camera camera;
@@ -17,8 +18,8 @@ Camera camera;
 
 num _averageFrameRate = 60.0;
 
-var x_map = 1200;
-var y_map = 1200;
+var x_map = 2000;
+var y_map = 2000;
 
 main() async {
   // setup the Stage and RenderLoop
@@ -53,6 +54,7 @@ main() async {
 
   resourceManager.addBitmapData("santa", "santa.png");
   resourceManager.addBitmapData("snow", "snow.png");
+  resourceManager.addBitmapData("tree", "tree.png");
 
 
 
@@ -67,6 +69,7 @@ main() async {
 
   var random2 = new math.Random();
   var random3 = new math.Random();
+  var random4 = new math.Random();
 
 
 
@@ -123,15 +126,27 @@ main() async {
 
   stage.juggler.add(camera);
 
-  for (var i = 0; i < 170; i++) {
+  for (var i = 0; i < 200; i++) {
+
 
     var size = random.nextInt(15);
-    var snow = new Snow(resourceManager.getBitmapData("snow"), 200, 200,santa.x,santa.y,camera);
+    random4 = random.nextInt(100)+100;
+    var snow = new Snow(resourceManager.getBitmapData("snow"), 200, random4,santa.x,santa.y,camera);
     snow.width = size;
     snow.height = size;
     snow.addTo(stage);
     stage.juggler.add(snow);
   }
+
+  for (var i = 0; i < 15; i++) {
+
+
+    var tree = new Tree(resourceManager.getBitmapData("tree"), x_map, y_map);
+
+    tree.addTo(stage);
+
+  }
+
 
 
   //cursor keys

@@ -10,7 +10,10 @@ class Snow extends Bitmap implements Animatable {
 
   var random = new math.Random();
   Snow(BitmapData bitmapData, this._vx, this._vy,this.xpos,this.ypos,this.camera) : super(bitmapData) {
-    x = random.nextInt(1200)+300;
+    xpos = -camera.x;
+    ypos = -camera.y;
+
+    x = random.nextInt(1200)+xpos;
     y = random.nextInt(1500)-ypos ;
     y = -y;
 
