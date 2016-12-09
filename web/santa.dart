@@ -8,6 +8,9 @@ class Santa extends Bitmap implements Animatable {
   bool movingUp = false;
   bool movingDown = false;
   var resourceManager = new ResourceManager();
+  num y_pos,x_pos;
+
+  var resource_route = "img/";
 
 
 
@@ -16,6 +19,8 @@ class Santa extends Bitmap implements Animatable {
     pivotY = bitmapData.height / 2;
     x = 700;
     y = 700;
+    y_pos = y;
+
     loadResources();
   }
 
@@ -42,16 +47,17 @@ class Santa extends Bitmap implements Animatable {
       y = y + _vy * time;
       bitmapData=resourceManager.getBitmapData("santa");
     }
+    y_pos = y;
     return true;
   }
 
 void loadResources() async{
 
-  resourceManager.addBitmapData("santa", "santa.png");
-  resourceManager.addBitmapData("snow", "snow.png");
-  resourceManager.addBitmapData("santa-left", "santa-left.png");
-  resourceManager.addBitmapData("santa-right", "santa-right.png");
-  resourceManager.addBitmapData("santa-top", "santa-top.png");
+  resourceManager.addBitmapData("santa", resource_route+"santa.png");
+  resourceManager.addBitmapData("snow", resource_route+"snow.png");
+  resourceManager.addBitmapData("santa-left", resource_route+"santa-left.png");
+  resourceManager.addBitmapData("santa-right", resource_route+"santa-right.png");
+  resourceManager.addBitmapData("santa-top", resource_route+"santa-top.png");
 
   await resourceManager.load();
 

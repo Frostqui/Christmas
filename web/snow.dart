@@ -38,7 +38,7 @@ class Snow extends Bitmap implements Animatable {
     y = y + _vy * time;
 
     if(y > ypos + 600){
-      x = random.nextInt(1000)+xpos;
+      x = random.nextInt(1300)+xpos;
       y = random.nextInt(1000)+ypos;
       y = -y;
 
