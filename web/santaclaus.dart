@@ -10,9 +10,13 @@ part 'snow.dart';
 part 'tile.dart';
 part 'camera.dart';
 part 'tree.dart';
+part 'rabbit.dart';
+part 'shadoow.dart';
 
 Santa santa;
 Camera camera;
+Shadoow shadoow;
+
 var stage;
 
 num _averageFrameRate = 60.0;
@@ -33,6 +37,8 @@ var resource_route = "img/";
 
 main() async {
   // setup the Stage and RenderLoop
+
+
   var canvas = html.querySelector('#stage');
   stage = new Stage(canvas);
   stage.backgroundColor = Color.Blue;
@@ -61,6 +67,10 @@ main() async {
   resourceManager.addBitmapData("santa", resource_route+"santa.png");
   resourceManager.addBitmapData("snow", resource_route+"snow.png");
   resourceManager.addBitmapData("tree", resource_route+"tree.png");
+  resourceManager.addBitmapData("rabbit", resource_route+"rabbit.png");
+  resourceManager.addBitmapData("rabbit-right", resource_route+"rabbit-right.png");
+
+  resourceManager.addBitmapData("shadow", resource_route+"shadow.png");
 
 
 
@@ -76,13 +86,38 @@ main() async {
   entities.add(santa);
   stage.addChild(santa);
   stage.juggler.add(santa);
+
+  shadoow = new Shadoow(resourceManager.getBitmapData("shadow"),santa);
+
+  shadoow.addTo(stage);
+  stage.juggler.add(shadoow);
+  santa.addShadow(shadoow);
+
   stage.focus = stage;
+
+
+  for (var i = 0; i < 15; i++) {
+
+
+    var rabbit = new Rabbit(resourceManager.getBitmapData("rabbit"),resourceManager.getBitmapData("rabbit-right"),resourceManager.getBitmapData("rabbit"), x_map, y_map);
+
+    entities.add(rabbit);
+    rabbit.addTo(stage);
+    stage.juggler.add(rabbit);
+
+    shadoow = new Shadoow(resourceManager.getBitmapData("shadow"),rabbit);
+
+    shadoow.addTo(stage);
+    stage.juggler.add(shadoow);
+
+
+  }
 
 
 
   var tile = new Tile(resourceManager.getBitmapData("tile2"));
 
-  camera = new Camera(stage,santa,entities);
+  camera = new Camera(stage,santa,entities,x_map,y_map);
   stage.juggler.add(camera);
 
   for (var i = 0; i < 200; i++) {
@@ -107,6 +142,7 @@ main() async {
     tree.addTo(stage);
 
   }
+
 
 
 

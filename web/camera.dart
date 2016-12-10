@@ -13,8 +13,10 @@ class Camera extends Bitmap implements Animatable{
   ResourceManager resourceManager;
   var random3 = new math.Random();
 
+  num x_map,ymap;
 
-  Camera(this.stage,this.santa,this.entities){
+
+  Camera(this.stage,this.santa,this.entities, this.x_map, this.ymap){
 
   }
 
@@ -23,11 +25,12 @@ class Camera extends Bitmap implements Animatable{
 
 
 
-    if (santa.x > 355) {
+
+    if (santa.x > 355 && santa.x < x_map - (64 * 3)-220) {
       camera.x = -santa.x + 350;
     }
 
-    if (santa.y > 355) {
+    if (santa.y > 355 && santa.y < ymap - (64 * 2)-200) {
       camera.y = -santa.y + 300;
     }
 
