@@ -8,7 +8,10 @@ class Camera extends Bitmap implements Animatable{
   Stage stage;
   Santa santa;
 
+
   List<Bitmap> entities;
+  List<Bitmap> presents;
+  List<Bitmap> rabbits;
 
   ResourceManager resourceManager;
   var random3 = new math.Random();
@@ -16,12 +19,41 @@ class Camera extends Bitmap implements Animatable{
   num x_map,ymap;
 
 
-  Camera(this.stage,this.santa,this.entities, this.x_map, this.ymap){
+  Camera(this.stage,this.santa,this.entities,this.presents, this.rabbits, this.x_map, this.ymap){
 
   }
 
   bool advanceTime(num time) {
 
+
+
+    for(num i = 0; i<presents.length; i++){
+
+
+
+      if(presents.elementAt(i).x > 355 && presents.elementAt(i).x < x_map - (64 * 3)-220) {
+        if(stage.contains(presents.elementAt(i))) {
+          stage.removeChild(presents.elementAt(i));
+        }
+        /*if(presents.contains(presents.elementAt(i))) {
+          presents.remove(presents.elementAt(i));
+        }
+        */
+      }
+
+      if (presents.elementAt(i).y > 355 && presents.elementAt(i).y < ymap - (64 * 2)-200) {
+        if(stage.contains(presents.elementAt(i))) {
+          stage.removeChild(presents.elementAt(i));
+        }
+       /* if(presents.contains(presents.elementAt(i))) {
+          presents.remove(presents.elementAt(i));
+        }
+        */
+      }
+
+
+
+    }
 
 
 
@@ -38,6 +70,9 @@ class Camera extends Bitmap implements Animatable{
     stage.setTransform(this.x, this.y);
 
     renderEntities();
+
+   checkCollisions();
+
 
 
 
@@ -70,5 +105,32 @@ class Camera extends Bitmap implements Animatable{
 
 
   }
+
+
+void checkCollisions() {
+
+
+  presents.forEach((present) {
+
+    rabbits.forEach((rabbit){
+      if(rabbit.hitTestObject(present)) {
+        present.shadow_alpha = 0;
+        stage.removeChild(present);
+        stage.juggler.remove(present);
+
+        rabbit.shadow_alpha = 0;
+        stage.removeChild(rabbit);
+        stage.juggler.remove(rabbit);
+
+        entities.remove(present);
+        entities.remove(rabbit);
+      }
+
+
+      });
+  });
+
+ }
+
 
 }

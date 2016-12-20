@@ -29,6 +29,8 @@ class Rabbit extends Bitmap implements Animatable{
 
   num shadow_size;
 
+  num shadow_alpha = 0.4;
+
 
 
 

@@ -12,10 +12,12 @@ part 'camera.dart';
 part 'tree.dart';
 part 'rabbit.dart';
 part 'shadoow.dart';
+part 'present.dart';
 
 Santa santa;
 Camera camera;
 Shadoow shadoow;
+Present present;
 
 var stage;
 
@@ -25,6 +27,8 @@ var x_map = 2000;
 var y_map = 2000;
 
 List<Bitmap> entities =  new List<Bitmap>();
+List<Bitmap> presents =  new List<Bitmap>();
+List<Bitmap> rabbits =  new List<Bitmap>();
 
 var resourceManager;
 
@@ -65,6 +69,7 @@ main() async {
 
 
   resourceManager.addBitmapData("santa", resource_route+"santa.png");
+  resourceManager.addBitmapData("present", resource_route+"present.png");
   resourceManager.addBitmapData("snow", resource_route+"snow.png");
   resourceManager.addBitmapData("tree", resource_route+"tree.png");
   resourceManager.addBitmapData("rabbit", resource_route+"rabbit.png");
@@ -87,6 +92,8 @@ main() async {
   stage.addChild(santa);
   stage.juggler.add(santa);
 
+
+
   shadoow = new Shadoow(resourceManager.getBitmapData("shadow"),santa);
 
   shadoow.addTo(stage);
@@ -105,6 +112,8 @@ main() async {
     rabbit.addTo(stage);
     stage.juggler.add(rabbit);
 
+    rabbits.add(rabbit);
+
     shadoow = new Shadoow(resourceManager.getBitmapData("shadow"),rabbit);
 
     shadoow.addTo(stage);
@@ -117,7 +126,7 @@ main() async {
 
   var tile = new Tile(resourceManager.getBitmapData("tile2"));
 
-  camera = new Camera(stage,santa,entities,x_map,y_map);
+  camera = new Camera(stage,santa,entities,presents,rabbits,x_map,y_map);
   stage.juggler.add(camera);
 
   for (var i = 0; i < 200; i++) {
@@ -151,6 +160,9 @@ main() async {
   const upArrow = 38;
   const rightArrow = 39;
   const downArrow = 40;
+  const spaceBar = 32;
+
+
 
   stage.onKeyDown.listen((value) {
 
@@ -181,6 +193,24 @@ main() async {
 
           break;
       }
+
+      if(value.keyCode == spaceBar){
+
+        present = new Present(resourceManager.getBitmapData("present"),santa.x,santa.y,santa.direction);
+        entities.add(present);
+        stage.addChild(present);
+        stage.juggler.add(present);
+
+
+        presents.add(present);
+
+
+
+        shadoow = new Shadoow(resourceManager.getBitmapData("shadow"),present);
+        shadoow.addTo(stage);
+        stage.juggler.add(shadoow);
+      }
+
 
   });
 
