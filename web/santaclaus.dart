@@ -13,11 +13,14 @@ part 'tree.dart';
 part 'rabbit.dart';
 part 'shadoow.dart';
 part 'present.dart';
+part 'counter.dart';
 
 Santa santa;
 Camera camera;
 Shadoow shadoow;
 Present present;
+
+var initGame = true;
 
 var stage;
 
@@ -39,8 +42,12 @@ var random =  new math.Random();
 
 var resource_route = "img/";
 
+Counter counter = new Counter("eeeey");
+
 main() async {
   // setup the Stage and RenderLoop
+
+  const spaceBar = 32;
 
 
   var canvas = html.querySelector('#stage');
@@ -49,137 +56,146 @@ main() async {
   stage.scaleMode = StageScaleMode.NO_SCALE;
 
 
-
-
-
-
   var renderLoop = new RenderLoop();
   renderLoop.addStage(stage);
 
-
-
-
-
-  resourceManager = new ResourceManager();
-
-  resourceManager.addBitmapData("tile1", resource_route+"tile1.png");
-  resourceManager.addBitmapData("tile2", resource_route+"tile2.png");
-  resourceManager.addBitmapData("tile3", resource_route+"tile3.png");
-  resourceManager.addBitmapData("tile4", resource_route+"tile4.png");
-
-
-  resourceManager.addBitmapData("santa", resource_route+"santa.png");
-  resourceManager.addBitmapData("present", resource_route+"present.png");
-  resourceManager.addBitmapData("snow", resource_route+"snow.png");
-  resourceManager.addBitmapData("tree", resource_route+"tree.png");
-  resourceManager.addBitmapData("rabbit", resource_route+"rabbit.png");
-  resourceManager.addBitmapData("rabbit-right", resource_route+"rabbit-right.png");
-
-  resourceManager.addBitmapData("shadow", resource_route+"shadow.png");
-
-
-
-  await resourceManager.load();
-
-
-
-
-  createMap();
-
-
-  santa = new Santa(resourceManager.getBitmapData("santa"), 200, 200);
-  entities.add(santa);
-  stage.addChild(santa);
-  stage.juggler.add(santa);
-
-
-
-  shadoow = new Shadoow(resourceManager.getBitmapData("shadow"),santa);
-
-  shadoow.addTo(stage);
-  stage.juggler.add(shadoow);
-  santa.addShadow(shadoow);
-
   stage.focus = stage;
 
+  if(!initGame){
 
-  for (var i = 0; i < 15; i++) {
+    stage.onKeyDown.listen((value) {
 
 
-    var rabbit = new Rabbit(resourceManager.getBitmapData("rabbit"),resourceManager.getBitmapData("rabbit-right"),resourceManager.getBitmapData("rabbit"), x_map, y_map);
+      print(value.keyCode);
+      if (value.keyCode == spaceBar) {
 
-    entities.add(rabbit);
-    rabbit.addTo(stage);
-    stage.juggler.add(rabbit);
+        print(initGame);
+        initGame = true;
 
-    rabbits.add(rabbit);
+      }
 
-    shadoow = new Shadoow(resourceManager.getBitmapData("shadow"),rabbit);
+    });
+
+
+  }
+
+  if(initGame){
+    resourceManager = new ResourceManager();
+
+    resourceManager.addBitmapData("tile1", resource_route + "tile1.png");
+    resourceManager.addBitmapData("tile2", resource_route + "tile2.png");
+    resourceManager.addBitmapData("tile3", resource_route + "tile3.png");
+    resourceManager.addBitmapData("tile4", resource_route + "tile4.png");
+
+
+    resourceManager.addBitmapData("santa", resource_route + "santa.png");
+    resourceManager.addBitmapData("present", resource_route + "present.png");
+    resourceManager.addBitmapData("snow", resource_route + "snow.png");
+    resourceManager.addBitmapData("tree", resource_route + "tree.png");
+    resourceManager.addBitmapData("rabbit", resource_route + "rabbit.png");
+    resourceManager.addBitmapData(
+        "rabbit-right", resource_route + "rabbit-right.png");
+
+    resourceManager.addBitmapData("shadow", resource_route + "shadow.png");
+
+
+    await resourceManager.load();
+
+
+    createMap();
+
+
+    santa = new Santa(resourceManager.getBitmapData("santa"), 200, 200);
+    entities.add(santa);
+    stage.addChild(santa);
+    stage.juggler.add(santa);
+
+
+    shadoow = new Shadoow(resourceManager.getBitmapData("shadow"), santa);
 
     shadoow.addTo(stage);
     stage.juggler.add(shadoow);
-
-
-  }
-
-
-
-  var tile = new Tile(resourceManager.getBitmapData("tile2"));
-
-  camera = new Camera(stage,santa,entities,presents,rabbits,x_map,y_map);
-  stage.juggler.add(camera);
-
-  for (var i = 0; i < 200; i++) {
-
-
-    var size = random.nextInt(15);
-    random4 = random.nextInt(100)+100;
-    var snow = new Snow(resourceManager.getBitmapData("snow"), 200, random4,santa.x,santa.y,camera);
-    snow.width = size;
-    snow.height = size;
-
-    snow.addTo(stage);
-    stage.juggler.add(snow);
-  }
-
-  for (var i = 0; i < 15; i++) {
-
-
-    var tree = new Tree(resourceManager.getBitmapData("tree"), x_map, y_map);
-    entities.add(tree);
-
-    tree.addTo(stage);
-
-  }
+    santa.addShadow(shadoow);
 
 
 
 
-  //cursor keys
-  const leftArrow = 37;
-  const upArrow = 38;
-  const rightArrow = 39;
-  const downArrow = 40;
-  const spaceBar = 32;
+    for (var i = 0; i < 15; i++) {
+      var rabbit = new Rabbit(resourceManager.getBitmapData("rabbit"),
+          resourceManager.getBitmapData("rabbit-right"),
+          resourceManager.getBitmapData("rabbit"), x_map, y_map);
+
+      entities.add(rabbit);
+      rabbit.addTo(stage);
+      stage.juggler.add(rabbit);
+
+      rabbits.add(rabbit);
+
+      shadoow = new Shadoow(resourceManager.getBitmapData("shadow"), rabbit);
+
+      shadoow.addTo(stage);
+      stage.juggler.add(shadoow);
+    }
+
+
+    var tile = new Tile(resourceManager.getBitmapData("tile2"));
+
+    camera = new Camera(
+        stage,
+        santa,
+        entities,
+        presents,
+        rabbits,
+        x_map,
+        y_map,
+        resourceManager,
+        counter);
+    stage.juggler.add(camera);
+
+    for (var i = 0; i < 200; i++) {
+      var size = random.nextInt(15);
+      random4 = random.nextInt(100) + 100;
+      var snow = new Snow(
+          resourceManager.getBitmapData("snow"), 200, random4, santa.x, santa.y,
+          camera);
+      snow.width = size;
+      snow.height = size;
+
+      snow.addTo(stage);
+      stage.juggler.add(snow);
+    }
+
+    for (var i = 0; i < 15; i++) {
+      var tree = new Tree(resourceManager.getBitmapData("tree"), x_map, y_map);
+      entities.add(tree);
+
+      tree.addTo(stage);
+    }
+
+
+    counter.addTo(stage);
 
 
 
-  stage.onKeyDown.listen((value) {
+
+    //cursor keys
+    const leftArrow = 37;
+    const upArrow = 38;
+    const rightArrow = 39;
+    const downArrow = 40;
+    //const spaceBar = 32;
 
 
+    stage.onKeyDown.listen((value) {
       //switch statemant to decide which cursor keys was down
       switch (value.keyCode) {
         case leftArrow:
-
-            santa.movingLeft = true;
-
+          santa.movingLeft = true;
 
 
           break;
         case upArrow:
-
-            santa.movingUp = true;
-
+          santa.movingUp = true;
 
 
           break;
@@ -194,44 +210,42 @@ main() async {
           break;
       }
 
-      if(value.keyCode == spaceBar){
-
-        present = new Present(resourceManager.getBitmapData("present"),santa.x,santa.y,santa.direction);
+      if (value.keyCode == spaceBar) {
+        present = new Present(
+            resourceManager.getBitmapData("present"), santa.x, santa.y,
+            santa.direction);
         entities.add(present);
         stage.addChild(present);
         stage.juggler.add(present);
 
 
         presents.add(present);
+       // entities.add(present);
 
 
-
-        shadoow = new Shadoow(resourceManager.getBitmapData("shadow"),present);
+        shadoow = new Shadoow(resourceManager.getBitmapData("shadow"), present);
         shadoow.addTo(stage);
         stage.juggler.add(shadoow);
       }
+    });
 
-
-  });
-
-  stage.onKeyUp.listen((value){
-
-    switch(value.keyCode){
-      case leftArrow:
-        santa.movingLeft = false;
-        break;
-      case upArrow:
-        santa.movingUp = false;
-        break;
-      case rightArrow:
-        santa.movingRight = false;
-        break;
-      case downArrow:
-        santa.movingDown = false;
-        break;
-    }
-
-  });
+    stage.onKeyUp.listen((value) {
+      switch (value.keyCode) {
+        case leftArrow:
+          santa.movingLeft = false;
+          break;
+        case upArrow:
+          santa.movingUp = false;
+          break;
+        case rightArrow:
+          santa.movingRight = false;
+          break;
+        case downArrow:
+          santa.movingDown = false;
+          break;
+      }
+    });
+  }
 
 }
 
@@ -267,4 +281,7 @@ void createMap(){
   }
 
 }
+
+
+
 

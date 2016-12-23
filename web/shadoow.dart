@@ -50,7 +50,7 @@ class Shadoow extends Bitmap implements Animatable{
         if(bitmap.shadow_alpha == 0){
           alpha = 0;
         }
-        x = bitmap.x + 20;
+        x = bitmap.x - 6;
         y = bitmap.y + 100;
 
       }

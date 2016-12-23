@@ -35,6 +35,7 @@ part of santaclaus;
             break;
 
         }
+        y_pos = y;
     return true;
 
       }

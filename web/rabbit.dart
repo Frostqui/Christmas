@@ -172,6 +172,11 @@ class Rabbit extends Bitmap implements Animatable{
   }
 
 
+  void setRandomPos(){
+    x = random.nextInt(xmap);
+    y = random.nextInt(ymap);
+  }
+
 
 
 }

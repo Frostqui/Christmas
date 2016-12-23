@@ -7,6 +7,9 @@ class Camera extends Bitmap implements Animatable{
 
   Stage stage;
   Santa santa;
+  Counter counter;
+
+  num score = 0;
 
 
   List<Bitmap> entities;
@@ -19,11 +22,16 @@ class Camera extends Bitmap implements Animatable{
   num x_map,ymap;
 
 
-  Camera(this.stage,this.santa,this.entities,this.presents, this.rabbits, this.x_map, this.ymap){
+
+
+  Camera(this.stage,this.santa,this.entities,this.presents, this.rabbits, this.x_map, this.ymap, this.resourceManager, this.counter){
+
 
   }
 
   bool advanceTime(num time) {
+
+
 
 
 
@@ -60,11 +68,22 @@ class Camera extends Bitmap implements Animatable{
 
     if (santa.x > 355 && santa.x < x_map - (64 * 3)-220) {
       camera.x = -santa.x + 350;
+      counter.x = santa.x - 330;
     }
 
     if (santa.y > 355 && santa.y < ymap - (64 * 2)-200) {
       camera.y = -santa.y + 300;
+      counter.y = santa.y - 300;
     }
+
+
+
+
+
+
+
+    counter.setText(score);
+
 
 
     stage.setTransform(this.x, this.y);
@@ -100,6 +119,10 @@ class Camera extends Bitmap implements Animatable{
 
     }
 
+    stage.removeChild(counter);
+    counter.addTo(stage);
+
+
 
 
 
@@ -114,16 +137,25 @@ void checkCollisions() {
 
     rabbits.forEach((rabbit){
       if(rabbit.hitTestObject(present)) {
+
+
+
+
+
+
+        score++;
         present.shadow_alpha = 0;
         stage.removeChild(present);
         stage.juggler.remove(present);
 
-        rabbit.shadow_alpha = 0;
-        stage.removeChild(rabbit);
-        stage.juggler.remove(rabbit);
+        rabbit.setRandomPos();
+
+
+
+
 
         entities.remove(present);
-        entities.remove(rabbit);
+
       }
 
 
@@ -131,6 +163,7 @@ void checkCollisions() {
   });
 
  }
+
 
 
 }
