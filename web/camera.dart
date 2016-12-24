@@ -66,6 +66,8 @@ class Camera extends Bitmap implements Animatable{
 
 
 
+
+
     if (santa.x > 355 && santa.x < x_map - (64 * 3)-220) {
       camera.x = -santa.x + 350;
       counter.x = santa.x - 330;
@@ -79,6 +81,14 @@ class Camera extends Bitmap implements Animatable{
 
 
 
+    rabbits.forEach((rabbit){
+      if((rabbit.x - santa.x).abs() < 110 || (rabbit.y - santa.y).abs() < 70 ){
+        rabbit.speed = 230;
+      }else{
+        rabbit.speed = 100;
+      }
+
+    });
 
 
 

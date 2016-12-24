@@ -6,7 +6,8 @@ part of santaclaus;
       num speed = 400;
       num x_pos;
       num y_pos;
-      num shadow_alpha = 0.3;
+      num shadow_alpha = 0.2;
+      String name = "present";
 
     Present(BitmapData bitmapData, this.x_pos,this.y_pos,this.direction): super(bitmapData){
       name="present";

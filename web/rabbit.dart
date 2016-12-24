@@ -47,8 +47,8 @@ class Rabbit extends Bitmap implements Animatable{
     x = random.nextInt(xmap);
     y = random.nextInt(ymap);
 
-    x_dest = random1.nextInt(xmap - 16) + 16;
-    y_dest = random2.nextInt(ymap - 16) + 16;
+    x_dest = random1.nextInt(xmap);
+    y_dest = random2.nextInt(ymap);
 
     jump_time = random.nextInt(20)+20;
     jump_land = random.nextInt(20)+20;
@@ -80,8 +80,8 @@ class Rabbit extends Bitmap implements Animatable{
     if((x - x_dest).abs() < 30 || (y - y_dest).abs() < 30 ){
 
 
-      x_dest = random1.nextInt(xmap - 16) + 16;
-      y_dest = random2.nextInt(ymap - 16) + 16;
+      x_dest = random1.nextInt(xmap);
+      y_dest = random2.nextInt(ymap);
 
 
 
@@ -128,6 +128,8 @@ class Rabbit extends Bitmap implements Animatable{
 
 
 
+
+
       if(x < x_dest){
 
         bitmapData=bitmapData2;
@@ -152,8 +154,12 @@ class Rabbit extends Bitmap implements Animatable{
 
 
       if(y < y_dest){
-        bitmapData=bitmapData2;
+        bitmapData=bitmapData3;
         y += speed * time;;
+
+      }
+
+      if((x - x_dest).abs() < (y - y_dest).abs()){
 
       }
 

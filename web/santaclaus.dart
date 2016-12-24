@@ -211,21 +211,27 @@ main() async {
       }
 
       if (value.keyCode == spaceBar) {
-        present = new Present(
-            resourceManager.getBitmapData("present"), santa.x, santa.y,
-            santa.direction);
-        entities.add(present);
-        stage.addChild(present);
-        stage.juggler.add(present);
+        if(santa.canShoot) {
+          present = new Present(
+              resourceManager.getBitmapData("present"), santa.x, santa.y,
+              santa.direction);
+
+          entities.add(present);
+          stage.addChild(present);
+          stage.juggler.add(present);
 
 
-        presents.add(present);
-       // entities.add(present);
+          presents.add(present);
 
 
-        shadoow = new Shadoow(resourceManager.getBitmapData("shadow"), present);
-        shadoow.addTo(stage);
-        stage.juggler.add(shadoow);
+
+          shadoow = new Shadoow(resourceManager.getBitmapData("shadow"), present);
+          shadoow.addTo(stage);
+          stage.juggler.add(shadoow);
+
+
+          santa.canShoot = false;
+        }
       }
     });
 

@@ -13,6 +13,9 @@ class Santa extends Bitmap implements Animatable {
   num y_pos,x_pos;
   num direction;
 
+  bool canShoot = true;
+  num cooldown = 50;
+
 
 
 
@@ -51,6 +54,7 @@ class Santa extends Bitmap implements Animatable {
   bool advanceTime(num time){
 
 
+    checkIfICanShoot();
     //shadoow.setX(santa.x + 30);
 
 
@@ -174,6 +178,17 @@ void loadResources() async{
   void addShadow(Shadoow shadoow){
 
     this.shadoow = shadoow;
+
+  }
+
+  void checkIfICanShoot(){
+    if(!canShoot){
+      cooldown--;
+      if(cooldown <= 0){
+        cooldown = 50;
+        canShoot = true;
+      }
+    }
 
   }
 
